@@ -1,11 +1,9 @@
+import '../../../model/ride_pref/ride_pref.dart';
+import '../../../services/ride_prefs_service.dart';
 import 'package:flutter/material.dart';
-
-import '../../model/ride_pref/ride_pref.dart';
-import '../../services/ride_prefs_service.dart';
 import '../../theme/theme.dart';
-
-import 'widgets/ride_pref_form.dart';
-import 'widgets/ride_pref_history_tile.dart';
+import 'widgets/ride_prefs_form.dart';
+import 'widgets/ride_prefs_tile.dart';
 
 const String blablaHomeImagePath = 'assets/images/blabla_home.png';
 
@@ -14,16 +12,11 @@ const String blablaHomeImagePath = 'assets/images/blabla_home.png';
 /// - Enter his/her ride preference and launch a search on it
 /// - Or select a last entered ride preferences and launch a search on it
 ///
-class RidePrefScreen extends StatefulWidget {
-  const RidePrefScreen({super.key});
+class RidePrefsScreen extends StatelessWidget {
+  const RidePrefsScreen({super.key});
 
-  @override
-  State<RidePrefScreen> createState() => _RidePrefScreenState();
-}
-
-class _RidePrefScreenState extends State<RidePrefScreen> {
   void onRidePrefSelected(RidePref ridePref) {
-    // 1 - Navigate to the rides screen (with a buttom to top animation)
+    // TODO
   }
 
   @override
@@ -31,26 +24,20 @@ class _RidePrefScreenState extends State<RidePrefScreen> {
     return Stack(children: [_buildBackground(), _buildForeground()]);
   }
 
-  Widget _buildBackground() {
-    return SizedBox(
-      width: double.infinity,
-      height: 340,
-      child: Image.asset(
-        blablaHomeImagePath,
-        fit: BoxFit.cover, // Adjust image fit to cover the container
-      ),
-    );
-  }
-
   Widget _buildForeground() {
     return Column(
       children: [
+        // 1 - THE HEADER
         SizedBox(height: 16),
-        Text(
-          "Your pick of rides at low price",
-          style: BlaTextStyles.heading.copyWith(color: Colors.white),
+        Align(
+          alignment: AlignmentGeometry.center,
+          child: Text(
+            "Your pick of rides at low price",
+            style: BlaTextStyles.heading.copyWith(color: Colors.white),
+          ),
         ),
         SizedBox(height: 100),
+
         Container(
           margin: EdgeInsets.symmetric(horizontal: BlaSpacings.xxl),
           decoration: BoxDecoration(
@@ -61,20 +48,20 @@ class _RidePrefScreenState extends State<RidePrefScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // 2.1 Display the Form to input the ride preferences
+              // 2 - THE FORM
               RidePrefForm(initRidePref: RidePrefService.currentRidePref),
               SizedBox(height: BlaSpacings.m),
 
-              // 2.2 Optionally display the history of past preferences
+              // 3 - THE HISTORY
               SizedBox(
                 height: 200, // Set a fixed height
                 child: ListView.builder(
                   shrinkWrap: true, // Fix ListView height issue
                   physics: AlwaysScrollableScrollPhysics(),
                   itemCount: RidePrefService.ridePrefsHistory.length,
-                  itemBuilder: (ctx, index) => RidePrefHistoryTile(
+                  itemBuilder: (ctx, index) => RidePrefsTile(
                     ridePref: RidePrefService.ridePrefsHistory[index],
-                    onTap: () => onRidePrefSelected(
+                    onPressed: () => onRidePrefSelected(
                       RidePrefService.ridePrefsHistory[index],
                     ),
                   ),
@@ -84,6 +71,17 @@ class _RidePrefScreenState extends State<RidePrefScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildBackground() {
+    return SizedBox(
+      width: double.infinity,
+      height: 340,
+      child: Image.asset(
+        blablaHomeImagePath,
+        fit: BoxFit.cover, // Adjust image fit to cover the container
+      ),
     );
   }
 }

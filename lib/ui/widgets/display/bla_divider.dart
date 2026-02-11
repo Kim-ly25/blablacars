@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/theme.dart';
 
+
 class BlaDivider extends StatelessWidget {
   const BlaDivider({super.key});
 
