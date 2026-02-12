@@ -12,8 +12,15 @@ const String blablaHomeImagePath = 'assets/images/blabla_home.png';
 /// - Enter his/her ride preference and launch a search on it
 /// - Or select a last entered ride preferences and launch a search on it
 ///
-class RidePrefsScreen extends StatelessWidget {
+class RidePrefsScreen extends StatefulWidget {
   const RidePrefsScreen({super.key});
+
+  @override
+  State<RidePrefsScreen> createState() => _RidePrefsScreenState();
+}
+
+class _RidePrefsScreenState extends State<RidePrefsScreen> {
+  RidePref? currentRidePref = RidePrefService.currentRidePref;
 
   void onRidePrefSelected(RidePref ridePref) {
     // TODO
@@ -30,7 +37,7 @@ class RidePrefsScreen extends StatelessWidget {
         // 1 - THE HEADER
         SizedBox(height: 16),
         Align(
-          alignment: AlignmentGeometry.center,
+          alignment: Alignment.center,
           child: Text(
             "Your pick of rides at low price",
             style: BlaTextStyles.heading.copyWith(color: Colors.white),
@@ -49,7 +56,8 @@ class RidePrefsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // 2 - THE FORM
-              RidePrefForm(initRidePref: RidePrefService.currentRidePref),
+              RidePrefForm(key: ValueKey(currentRidePref),  initRidePref: currentRidePref,
+              ),
               SizedBox(height: BlaSpacings.m),
 
               // 3 - THE HISTORY
